@@ -1,0 +1,71 @@
+"use client"
+
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+
+interface GameCompleteProps {
+  score: number
+  total: number
+  onBackToMenu: () => void
+}
+
+export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) {
+  const percentage = (score / total) * 100
+  const isPerfect = score === total
+  const isGood = percentage >= 70
+  const isFair = percentage >= 50
+
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="text-8xl mb-6 animate-float">{isPerfect ? "🏆" : isGood ? "🎉" : isFair ? "👍" : "💪"}</div>
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            {isPerfect ? "¡Perfecto!" : isGood ? "¡Excelente!" : isFair ? "¡Buen trabajo!" : "¡Sigue practicando!"}
+          </h1>
+          <p className="text-xl text-muted-foreground">Has completado el desafío</p>
+        </div>
+
+        <Card
+          className="p-8 mb-8 border-2 border-primary/50 animate-in fade-in slide-in-from-bottom-4 duration-700"
+          style={{ animationDelay: "200ms" }}
+        >
+          <div className="mb-6">
+            <div className="text-6xl font-bold text-primary mb-2">
+              {score}/{total}
+            </div>
+            <p className="text-muted-foreground">Respuestas correctas</p>
+          </div>
+
+          <div className="w-full bg-muted rounded-full h-4 mb-4 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-1000 animate-in slide-in-from-left"
+              style={{ width: `${percentage}%` }}
+            />
+          </div>
+
+          <p className="text-2xl font-bold text-primary">{percentage.toFixed(0)}%</p>
+        </Card>
+
+        <div
+          className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700"
+          style={{ animationDelay: "400ms" }}
+        >
+          <Button onClick={onBackToMenu} size="lg" className="w-full text-lg py-6">
+            Volver al Menú Principal
+          </Button>
+
+          {!isPerfect && (
+            <p className="text-sm text-muted-foreground">💡 Intenta de nuevo para mejorar tu puntuación</p>
+          )}
+        </div>
+
+        {isPerfect && (
+          <div className="mt-8 p-6 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg border-2 border-primary animate-pulse-glow">
+            <p className="text-lg font-bold text-primary">¡Has dominado este módulo de Matemáticas Discretas! 🎓</p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
