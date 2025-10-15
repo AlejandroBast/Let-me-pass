@@ -1,11 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import type { Module } from "@/app/page"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
+import type { Module } from "@/lib/questions"
 import { BridgeScene } from "@/components/bridge-scene"
 import { generateQuestion, checkAnswer, type Question } from "@/lib/questions"
 
@@ -30,28 +26,32 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
   }, [module])
 
   const handleSubmit = () => {
-    if (!currentQuestion || !userAnswer.trim() || isAnswering) return
+    if (!currentQuestion || isAnswering) return
+
+    // For multiple-choice ensure user selected an option
+    if (currentQuestion.type === "multiple-choice" && !userAnswer) return
 
     setIsAnswering(true)
     const isCorrect = checkAnswer(currentQuestion, userAnswer)
     setFeedback(isCorrect ? "correct" : "incorrect")
 
-    if (isCorrect) {
-      setScore(score + 1)
-      setBridgeProgress((questionNumber / totalQuestions) * 100)
-    }
+    // update score and bridge immediately for UI
+    const newScore = score + (isCorrect ? 1 : 0)
+    setScore(newScore)
+    const progress = (questionNumber / totalQuestions) * 100
+    setBridgeProgress(progress)
 
     setTimeout(() => {
       if (questionNumber >= totalQuestions) {
-        onComplete(score + (isCorrect ? 1 : 0), totalQuestions)
+        onComplete(newScore, totalQuestions)
       } else {
-        setQuestionNumber(questionNumber + 1)
+        setQuestionNumber((n) => n + 1)
         setCurrentQuestion(generateQuestion(module))
         setUserAnswer("")
         setFeedback(null)
         setIsAnswering(false)
       }
-    }, 2000)
+    }, 1200)
   }
 
   if (!currentQuestion) return null
@@ -61,9 +61,12 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <Button variant="outline" onClick={onBackToMenu}>
-            ← Volver al Menú
-          </Button>
+          <button
+            onClick={onBackToMenu}
+            className="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition"
+          >
+            Volver al menú
+          </button>
           <div className="text-right">
             <p className="text-sm text-muted-foreground">
               Pregunta {questionNumber} de {totalQuestions}
@@ -79,11 +82,16 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
 
         {/* Progress Bar */}
         <div className="mb-6">
-          <Progress value={((questionNumber - 1) / totalQuestions) * 100} className="h-2" />
+          <div className="w-full bg-muted rounded-full h-4 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-1000"
+              style={{ width: `${(questionNumber - 1) / totalQuestions * 100}%` }}
+            />
+          </div>
         </div>
 
         {/* Question Card */}
-        <Card className="p-8 border-2 border-border animate-in fade-in slide-in-from-bottom-4">
+        <div className="p-8 border-2 border-border animate-in fade-in slide-in-from-bottom-4">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-4 text-primary">{currentQuestion.title}</h2>
             <p className="text-lg mb-4 leading-relaxed">{currentQuestion.question}</p>
@@ -100,37 +108,36 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
           {currentQuestion.type === "multiple-choice" ? (
             <div className="space-y-3">
               {currentQuestion.options?.map((option, index) => (
-                <Button
+                <button
                   key={index}
-                  variant={userAnswer === option ? "default" : "outline"}
-                  className="w-full justify-start text-left h-auto py-4 px-6"
                   onClick={() => setUserAnswer(option)}
+                  className={`w-full text-left px-4 py-3 border border-border rounded-lg hover:bg-muted/50 transition ${
+                    userAnswer === option ? "bg-primary/20 border-primary" : ""
+                  }`}
                   disabled={isAnswering}
                 >
                   {option}
-                </Button>
+                </button>
               ))}
             </div>
           ) : (
-            <Input
-              type="text"
-              placeholder="Escribe tu respuesta..."
+            <textarea
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+              placeholder="Escribe tu respuesta aquí..."
+              className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50 disabled:cursor-not-allowed"
+              rows={4}
               disabled={isAnswering}
-              className="text-lg p-6"
-            />
+            />  
           )}
 
-          <Button
+          <button
             onClick={handleSubmit}
+            className="mt-6 w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!userAnswer.trim() || isAnswering}
-            className="w-full mt-6 text-lg py-6"
-            size="lg"
           >
-            {isAnswering ? "Verificando..." : "Enviar Respuesta"}
-          </Button>
+            {isAnswering ? "Procesando..." : "Enviar Respuesta"}
+          </button>
 
           {feedback && (
             <div
@@ -144,7 +151,7 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
               <p className="text-sm leading-relaxed">{currentQuestion.explanation}</p>
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   )

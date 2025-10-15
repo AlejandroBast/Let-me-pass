@@ -1,4 +1,4 @@
-import type { Module } from "@/app/page"
+export type Module = "crypto" | "combinatorics" | "graphs" | "relations"
 
 export interface Question {
   title: string
@@ -185,8 +185,17 @@ export function generateQuestion(module: Module): Question {
   }
 }
 
+// Normaliza texto: elimina acentos, espacios al inicio/fin y pasa a minúsculas
+function normalizeText(s: string) {
+  return s
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+}
+
 export function checkAnswer(question: Question, userAnswer: string): boolean {
-  const normalizedAnswer = userAnswer.trim().toUpperCase()
-  const normalizedCorrect = question.answer.trim().toUpperCase()
+  const normalizedAnswer = normalizeText(userAnswer)
+  const normalizedCorrect = normalizeText(question.answer)
   return normalizedAnswer === normalizedCorrect
 }

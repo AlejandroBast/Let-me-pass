@@ -1,7 +1,5 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 
 interface GameCompleteProps {
   score: number
@@ -26,7 +24,7 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
           <p className="text-xl text-muted-foreground">Has completado el desafío</p>
         </div>
 
-        <Card
+        <div
           className="p-8 mb-8 border-2 border-primary/50 animate-in fade-in slide-in-from-bottom-4 duration-700"
           style={{ animationDelay: "200ms" }}
         >
@@ -45,15 +43,18 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
           </div>
 
           <p className="text-2xl font-bold text-primary">{percentage.toFixed(0)}%</p>
-        </Card>
+        </div>
 
         <div
           className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700"
           style={{ animationDelay: "400ms" }}
         >
-          <Button onClick={onBackToMenu} size="lg" className="w-full text-lg py-6">
-            Volver al Menú Principal
-          </Button>
+          <button
+            onClick={onBackToMenu}
+            className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+          >
+            Volver al menú
+          </button>
 
           {!isPerfect && (
             <p className="text-sm text-muted-foreground">💡 Intenta de nuevo para mejorar tu puntuación</p>

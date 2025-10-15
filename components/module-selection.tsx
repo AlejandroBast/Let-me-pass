@@ -1,8 +1,6 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import type { Module } from "@/app/page"
+import type { Module } from "@/lib/questions"
 
 interface ModuleSelectionProps {
   onSelectModule: (module: Module) => void
@@ -44,16 +42,16 @@ export function ModuleSelection({ onSelectModule }: ModuleSelectionProps) {
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          Matemáticas Discretas
+          Let me pass
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-          Ayuda al personaje a cruzar el puente resolviendo problemas de matemáticas discretas
+          Ayuda al personaje a cruzar el puente resolviendo problemas de matemáticas discretas.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
         {modules.map((module, index) => (
-          <Card
+          <div
             key={module.id}
             className="group relative overflow-hidden border-2 border-border hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer animate-in fade-in slide-in-from-bottom-4"
             style={{ animationDelay: `${index * 100}ms` }}
@@ -67,23 +65,23 @@ export function ModuleSelection({ onSelectModule }: ModuleSelectionProps) {
               <div className="text-6xl mb-4 animate-float">{module.icon}</div>
               <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{module.title}</h3>
               <p className="text-muted-foreground mb-4">{module.description}</p>
-              <Button
-                className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all bg-transparent"
-                variant="outline"
+              <button
+                className="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+                onClick={() => onSelectModule(module.id)}
               >
                 Comenzar
-              </Button>
+              </button>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
       <div className="mt-12 text-center">
-        <Card className="inline-block p-6 border-primary/50">
+        <div className="inline-block p-6 border-primary/50">
           <p className="text-sm text-muted-foreground">
             <span className="font-bold text-primary">MATH-112</span> - Universidad de Matemáticas Discretas
           </p>
-        </Card>
+        </div>
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ import { ModuleSelection } from "@/components/module-selection"
 import { GamePlay } from "@/components/game-play"
 import { GameComplete } from "@/components/game-complete"
 
-export type Module = "crypto" | "combinatorics" | "graphs" | "relations"
+import type { Module } from "@/lib/questions"
 
 export default function Home() {
   const [gameState, setGameState] = useState<"menu" | "playing" | "complete">("menu")
