@@ -10,28 +10,38 @@ interface BridgeSceneProps {
 export function BridgeScene({ progress, feedback }: BridgeSceneProps) {
   const [characterPosition, setCharacterPosition] = useState(0)
   const [showParticles, setShowParticles] = useState(false)
+  // Añadimos estado local para el progreso del puente
+  const [bridgeProgress, setBridgeProgress] = useState(progress)
 
   useEffect(() => {
     if (feedback === "correct") {
       setCharacterPosition(progress)
+      setBridgeProgress(progress)
       setShowParticles(true)
       setTimeout(() => setShowParticles(false), 1000)
+    } else if (feedback === "incorrect") {
+      // Reducimos el progreso del puente en 20% (2 piezas)
+      const newProgress = Math.max(0, bridgeProgress - 20)
+      setBridgeProgress(newProgress)
+      setCharacterPosition(newProgress)
     }
   }, [feedback, progress])
 
   const bridgePieces = 10
-  const completedPieces = Math.floor((progress / 100) * bridgePieces)
+  // Usamos bridgeProgress en lugar de progress para las piezas completadas
+  const completedPieces = Math.floor((bridgeProgress / 100) * bridgePieces)
+
 
   return (
     <div className="relative w-full h-64 mb-8 bg-gradient-to-b from-card to-muted rounded-xl overflow-hidden border-2 border-border">
-      {/* Sky background */}
+      {/* Fondo del cielo */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-transparent" />
 
-      {/* Mountains/cliffs */}
+  {/* Montañas/acantilados */}
       <div className="absolute bottom-0 left-0 w-1/4 h-32 bg-gradient-to-t from-muted to-muted/50 rounded-tr-3xl" />
       <div className="absolute bottom-0 right-0 w-1/4 h-32 bg-gradient-to-t from-muted to-muted/50 rounded-tl-3xl" />
 
-      {/* Bridge */}
+  {/* Puente */}
       <div className="absolute bottom-16 left-1/4 right-1/4 h-4 flex gap-1">
         {Array.from({ length: bridgePieces }).map((_, i) => (
           <div
@@ -49,7 +59,7 @@ export function BridgeScene({ progress, feedback }: BridgeSceneProps) {
         ))}
       </div>
 
-      {/* Bridge supports */}
+  {/* Soportes del puente */}
       {Array.from({ length: bridgePieces + 1 }).map((_, i) => {
         const isVisible = i <= completedPieces
         return (
@@ -65,7 +75,7 @@ export function BridgeScene({ progress, feedback }: BridgeSceneProps) {
         )
       })}
 
-      {/* Character */}
+  {/* Personaje */}
       <div
         className="absolute bottom-20 w-12 h-12 transition-all duration-1000 ease-out"
         style={{
@@ -73,7 +83,7 @@ export function BridgeScene({ progress, feedback }: BridgeSceneProps) {
         }}
       >
         <div className="relative animate-float">
-          <div className="text-4xl">🚶</div>
+          <div className="text-4xl">🏃🏻‍➡️</div>
           {showParticles && (
             <div className="absolute inset-0">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -92,10 +102,10 @@ export function BridgeScene({ progress, feedback }: BridgeSceneProps) {
         </div>
       </div>
 
-      {/* Goal flag */}
+  {/* Bandera meta */}
       <div className="absolute bottom-20 right-[23%] text-4xl animate-float">🏁</div>
 
-      {/* Feedback overlay */}
+  {/* Capa de retroalimentación */}
       {feedback === "correct" && <div className="absolute inset-0 bg-success/10 animate-in fade-in duration-300" />}
       {feedback === "incorrect" && (
         <div className="absolute inset-0 bg-destructive/10 animate-in fade-in duration-300" />

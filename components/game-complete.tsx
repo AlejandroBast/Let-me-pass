@@ -1,6 +1,5 @@
 "use client"
 
-
 interface GameCompleteProps {
   score: number
   total: number
@@ -21,7 +20,7 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             {isPerfect ? "¡Perfecto!" : isGood ? "¡Excelente!" : isFair ? "¡Buen trabajo!" : "¡Sigue practicando!"}
           </h1>
-          <p className="text-xl text-muted-foreground">Has completado el desafío</p>
+          <p className="text-xl text-muted-foreground">Has terminado el desafío</p>
         </div>
 
         <div
@@ -29,10 +28,8 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
           style={{ animationDelay: "200ms" }}
         >
           <div className="mb-6">
-            <div className="text-6xl font-bold text-primary mb-2">
-              {score}/{total}
-            </div>
-            <p className="text-muted-foreground">Respuestas correctas</p>
+            <p className="text-4xl font-bold text-primary">{score}/{total}</p>
+            <p className="text-lg text-muted-foreground">Respuestas correctas</p>
           </div>
 
           <div className="w-full bg-muted rounded-full h-4 mb-4 overflow-hidden">
@@ -42,7 +39,7 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
             />
           </div>
 
-          <p className="text-2xl font-bold text-primary">{percentage.toFixed(0)}%</p>
+          <p className="text-2xl font-bold text-primary">{Math.round(percentage)}%</p>
         </div>
 
         <div
@@ -57,13 +54,15 @@ export function GameComplete({ score, total, onBackToMenu }: GameCompleteProps) 
           </button>
 
           {!isPerfect && (
-            <p className="text-sm text-muted-foreground">💡 Intenta de nuevo para mejorar tu puntuación</p>
+            <p className="text-sm text-muted-foreground">
+              💡 Intenta de nuevo para mejorar tu puntuación
+            </p>
           )}
         </div>
 
         {isPerfect && (
           <div className="mt-8 p-6 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg border-2 border-primary animate-pulse-glow">
-            <p className="text-lg font-bold text-primary">¡Has dominado este módulo de Matemáticas Discretas! 🎓</p>
+            <p className="text-lg font-medium">¡Has alcanzado la puntuación perfecta! 🌟</p>
           </div>
         )}
       </div>

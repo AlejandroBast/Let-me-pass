@@ -5,8 +5,8 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Let me pass',
-  description: 'Plataforma de aprendizaje de matemáticas discretas - Let me pass',
+  title: 'Let Me Pass',
+  description: 'Plataforma de aprendizaje de matemáticas discretas - Let Me Pass',
 }
 
 export default function RootLayout({

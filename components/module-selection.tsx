@@ -79,7 +79,7 @@ export function ModuleSelection({ onSelectModule }: ModuleSelectionProps) {
       <div className="mt-12 text-center">
         <div className="inline-block p-6 border-primary/50">
           <p className="text-sm text-muted-foreground">
-            <span className="font-bold text-primary">MATH-112</span> - Universidad de Matemáticas Discretas
+            <span className="font-bold text-primary">By </span> AlejandroBast
           </p>
         </div>
       </div>

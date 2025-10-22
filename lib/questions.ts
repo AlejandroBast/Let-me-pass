@@ -11,13 +11,11 @@ export interface Question {
   topic: string
 }
 
-// Cryptography questions - Modular arithmetic and Caesar cipher
+// Preguntas de criptografía - Aritmética modular y cifrado César
 function generateCryptoQuestion(): Question {
   const shift = Math.floor(Math.random() * 25) + 1
   const messages = [
-    { plain: "HOLA", encrypted: caesarEncrypt("HOLA", shift) },
     { plain: "MATE", encrypted: caesarEncrypt("MATE", shift) },
-    { plain: "EXITO", encrypted: caesarEncrypt("EXITO", shift) },
   ]
   const selected = messages[Math.floor(Math.random() * messages.length)]
 
@@ -32,7 +30,7 @@ function generateCryptoQuestion(): Question {
   }
 }
 
-// Combinatorics questions
+// Preguntas de combinatoria
 function generateCombinatoricsQuestion(): Question {
   const type = Math.random() > 0.5 ? "permutation" : "combination"
 
@@ -67,7 +65,7 @@ function generateCombinatoricsQuestion(): Question {
   }
 }
 
-// Graph theory questions
+// Preguntas de teoría de grafos
 function generateGraphQuestion(): Question {
   const graphs = [
     {
@@ -101,7 +99,7 @@ function generateGraphQuestion(): Question {
   }
 }
 
-// Relations questions
+// Preguntas sobre relaciones
 function generateRelationsQuestion(): Question {
   const relations = [
     {
@@ -142,7 +140,7 @@ function generateRelationsQuestion(): Question {
   }
 }
 
-// Helper functions
+// Funciones auxiliares
 function caesarEncrypt(text: string, shift: number): string {
   return text
     .split("")
@@ -169,7 +167,7 @@ function combination(n: number, r: number): number {
   return factorial(n) / (factorial(r) * factorial(n - r))
 }
 
-// Main question generator
+// Generador principal de preguntas
 export function generateQuestion(module: Module): Question {
   switch (module) {
     case "crypto":

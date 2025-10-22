@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated background pattern */}
+  {/* Patrón de fondo animado */}
       <div className="absolute inset-0 opacity-10">
         <div
           className="absolute inset-0"

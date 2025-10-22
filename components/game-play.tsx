@@ -28,7 +28,7 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
   const handleSubmit = () => {
     if (!currentQuestion || isAnswering) return
 
-    // For multiple-choice ensure user selected an option
+  // Para preguntas de opción múltiple, asegurar que el usuario seleccionó una opción
     if (currentQuestion.type === "multiple-choice" && !userAnswer) return
 
     setIsAnswering(true)
@@ -59,7 +59,7 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+  {/* Encabezado */}
         <div className="flex justify-between items-center mb-6">
           <button
             onClick={onBackToMenu}
@@ -77,10 +77,10 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
           </div>
         </div>
 
-        {/* Bridge Scene */}
+  {/* Escena del puente */}
         <BridgeScene progress={bridgeProgress} feedback={feedback} />
 
-        {/* Progress Bar */}
+  {/* Barra de progreso */}
         <div className="mb-6">
           <div className="w-full bg-muted rounded-full h-4 overflow-hidden">
             <div
@@ -90,7 +90,7 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
           </div>
         </div>
 
-        {/* Question Card */}
+  {/* Tarjeta de pregunta */}
         <div className="p-8 border-2 border-border animate-in fade-in slide-in-from-bottom-4">
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-4 text-primary">{currentQuestion.title}</h2>
@@ -136,7 +136,7 @@ export function GamePlay({ module, onComplete, onBackToMenu }: GamePlayProps) {
             className="mt-6 w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!userAnswer.trim() || isAnswering}
           >
-            {isAnswering ? "Procesando..." : "Enviar Respuesta"}
+            {isAnswering ? "Procesando…" : "Enviar respuesta"}
           </button>
 
           {feedback && (
